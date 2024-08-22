@@ -79,8 +79,7 @@ _main:
 	mov ebx, 0            
 	int 80h   
 
-
-	
+	; for older cpu must use 3 registers 
 
 	
 		
