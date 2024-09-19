@@ -1,44 +1,48 @@
-board = [
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-         ]
+ships = {
+    "c" : {
+        "depth" : [1, 0],
+        "length" : 4
+    },
+    "s" : {
+        "depth" : [0, 1],
+        "length" : 3
+    }
+}
+board = [[[0, 0] for i in range(10)] for i in range(10)]
+# board = [
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+#          ]
 
 def show_board():
+    print("depth 0: ")
     for i in board:
         for j in i:
-            print(j, end=" ")
+            print(j[0], end=" ")
+        print("\n")
+    print("depth 1: ")
+    for i in board:
+        for j in i:
+            print(j[1], end=" ")
         print("\n")
 
 def place_ship(y, x, type, ori):
     if ori == "v":
-        if type == "c":
-            board[-y - 1][x] = 1
-            board[-y    ][x] = 1
-            board[-y + 1][x] = 1
-            board[-y + 2][x] = 1
-        else:
-            board[-y - 1][x] = 1
-            board[-y - 2][x] = 1
-            board[-y - 3][x] = 1
+        for i in range(ships.get(type, {}).get("length")):
+            board[-y - 1 + i][x] = ships.get(type).get("depth")
+  
     else:
-        if type == "c":
-            board[-y - 1][x] = 1
-            board[-y - 1][x + 1] = 1
-            board[-y - 1][x + 2] = 1
-            board[-y - 1][x + 3] = 1
-        else:
-            board[-y - 1][x] = 1
-            board[-y - 1][x + 1] = 1
-            board[-y - 1][x + 2] = 1
-
+        for i in range(ships.get(type).get(length)):
+            board[-y - 1][x + i] = ships.get(type).get("depth")
+# game loop
 while True:
     ship_type = input("Submarine or carrier (c/s): ")
     if str(ship_type) == "quit":
@@ -47,17 +51,12 @@ while True:
         print("enter something valid!")
         continue
 
-    ship_pos_y = input("enter y coords: ")
+    ship_pos = input("enter x,y coords e.g 4,6: ")
     if ship_type == "quit":
         break
-    elif int(ship_pos_y) not in range(1, 11):
-        print("enter something valid!")
-        continue
-
-    ship_pos_x = input("enter x coords ")
-    if ship_type == "quit":
-        break
-    elif int(ship_pos_x) not in range(1, 11):
+    ship_pos = ship_pos.split(",")
+    ship_pos_x, ship_pos_y = ship_pos
+    if (int(ship_pos_y) not in range(1, 11)) and (int(ship_pos_x) not in range(1, 11)):
         print("enter something valid!")
         continue
 
