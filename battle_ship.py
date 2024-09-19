@@ -23,27 +23,28 @@ board = [[[0, 0] for i in range(10)] for i in range(10)]
 #          ]
 
 def show_board():
-    print("depth 0: ")
+    print("\n")
+    print("depth 0:                         depth 1: ")
     for i in board:
         for j in i:
             print(j[0], end=" ")
-        print("\n")
-    print("depth 1: ")
-    for i in board:
+        print("             ", end="")
         for j in i:
             print(j[1], end=" ")
-        print("\n")
-
+        print("\n", end="")
+    print("\n")
+    
 def place_ship(y, x, type, ori):
     if ori == "v":
         for i in range(ships.get(type, {}).get("length")):
             board[-y - 1 + i][x] = ships.get(type).get("depth")
-  
+
     else:
         for i in range(ships.get(type).get(length)):
             board[-y - 1][x + i] = ships.get(type).get("depth")
-# game loop
-#--------------------------------------------------------------------------------------
+            
+#-----------------------------------------game-loop-----------------------------------------
+
 while True:
     ship_type = input("Submarine or carrier (c/s): ")
     if str(ship_type) == "quit":
@@ -55,9 +56,13 @@ while True:
     ship_pos = input("enter x,y coords e.g 4,6: ")
     if ship_type == "quit":
         break
-    ship_pos = ship_pos.split(",")
-    ship_pos_x, ship_pos_y = ship_pos
-    if (int(ship_pos_y) not in range(1, 11)) and (int(ship_pos_x) not in range(1, 11)):
+    try:
+        ship_pos = ship_pos.split(",")
+        ship_pos_x, ship_pos_y = ship_pos
+        if (int(ship_pos_y) not in range(1, 11)) and (int(ship_pos_x) not in range(1, 11)):
+            print("enter something valid!")
+            continue
+    except:
         print("enter something valid!")
         continue
 
