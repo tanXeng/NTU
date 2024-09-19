@@ -43,6 +43,7 @@ def place_ship(y, x, type, ori):
         for i in range(ships.get(type).get(length)):
             board[-y - 1][x + i] = ships.get(type).get("depth")
 # game loop
+#--------------------------------------------------------------------------------------
 while True:
     ship_type = input("Submarine or carrier (c/s): ")
     if str(ship_type) == "quit":
